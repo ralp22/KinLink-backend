@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class auth(AppConfig):
+class KinLinkAuth(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'auth'
+    name = 'KinLinkAuth'
