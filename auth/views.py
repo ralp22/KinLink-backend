@@ -4,23 +4,26 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
+import requests
+from django.http import JsonResponse
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
 
-# Create your views here.
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
 
-class HomeView(APIView):
-    permission_classes = (IsAuthenticated, )
+        token['username'] = user.username
 
-    def get(self, request):
+        return token
 
-        content = {'message': 'Welcome to the Authentication Page!'}
-        return Response(content)
-    
-class LogoutView(APIView):
-    permission_classes = (IsAuthenticated,)
-    def post(self, request):
-        try:
-            refresh_token = request.data["refresh_token"]
-            token = RefreshToken(refresh_token)
-            return Response(status=status.HTTP_205_RESET_CONTENT) 
-        except Exception as e:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
+
+def getRoutes(request):
+    routes = [
+        '/api/token',
+        '/api/token/refresh',
+    ]
+    return JsonResponse(routes, safe=False)
