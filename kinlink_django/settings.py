@@ -109,7 +109,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'KinLink.wsgi.application'
+WSGI_APPLICATION = 'kinlink_django.wsgi.application'
 
 
 # Database
