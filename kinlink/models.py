@@ -10,22 +10,21 @@ class UserImageSelection(models.Model):
     def __str__(self):
         return self.image.name
 
-
 class Relationship(models.Model):
     from_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='from_user')
     to_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='to_user')
     relationship_type = models.CharField(max_length=100)
 
-class UserProfile(User):
+class UserProfile(models.Model):
     # class Meta:
     #     proxy = True
-
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     avatar = models.ImageField(upload_to='avatars/', blank=True)
     highlight_reel = models.ManyToManyField(UserImageSelection, blank=True, max_length=10)
     relationships = models.ManyToManyField(Relationship, blank=True)
 
     def __str__(self):
-        return self.username
+        return self.user.username
     
 class Post(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
