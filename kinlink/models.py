@@ -16,8 +16,6 @@ class Relationship(models.Model):
     relationship_type = models.CharField(max_length=100)
 
 class UserProfile(models.Model):
-    # class Meta:
-    #     proxy = True
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     avatar = models.ImageField(upload_to='avatars/', blank=True)
     highlight_reel = models.ManyToManyField(UserImageSelection, blank=True, max_length=10)

@@ -1,7 +1,6 @@
 from django.contrib import admin
-from django.urls import path, include
-from kinlink import views
-from kinlink.views import MyTokenObtainPairView, UserProfileList, UserProfileDetail
+from django.urls import path
+from kinlink.views import MyTokenObtainPairView, UserProfileList, UserProfileDetail, PostList, PostDetail, CommentList, CommentDetail, RelationshipList, RelationshipDetail, UserImageSelectionList, UserImageSelectionDetail, UserList, UserDetail
 from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
@@ -11,6 +10,17 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('userprofiles/', UserProfileList.as_view(), name="userprofile-list"),
-    path('userprofiles/<int:pk>/', UserProfileDetail.as_view(), name="userprofile-detail"),
+    path('users/', UserList.as_view(), name="user_list"),
+    path('users/<int:pk>', UserDetail.as_view(), name="user_detail"),
+    path('userprofiles/', UserProfileList.as_view(), name="userprofile_list"),
+    path('userprofiles/<int:pk>', UserProfileDetail.as_view(), name="userprofile_detail"),
+    path('posts/', PostList.as_view(), name="post_list"),
+    path('posts/<int:pk>', PostDetail.as_view(), name="post_detail"),
+    path('comments/', CommentList.as_view(), name="comment_list"),
+    path('comments/<int:pk>', CommentDetail.as_view(), name="comment_detail"),
+    path('relationships/', RelationshipList.as_view(), name="relationship_list"),
+    path('relationships/<int:pk>', RelationshipDetail.as_view(), name="relationship_detail"),
+    path('highlightreel/', UserImageSelectionList.as_view(), name="highlightreel_list"),
+    path('highlightreel/<int:pk>', UserImageSelectionDetail.as_view(), name="highlightreel_detail"),
+    
 ]
