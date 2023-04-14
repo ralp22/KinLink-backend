@@ -1,8 +1,8 @@
 from rest_framework import generics
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
-from .models import UserProfile, Post, Comment, UserImageSelection, Relationship, User
-from kinlink.serializers import UserProfileSerializer, PostSerializer, CommentSerializer, UserImageSelectionSerializer, RelationshipSerializer, UserSerializer
+from .models import UserProfile, Post, Comment, Relationship, User
+from kinlink.serializers import UserProfileSerializer, PostSerializer, CommentSerializer, RelationshipSerializer, UserSerializer
 
 class UserList(generics.ListCreateAPIView):
     queryset = User.objects.all()
@@ -40,18 +40,18 @@ class RelationshipList(generics.ListCreateAPIView):
     queryset = Relationship.objects.all()
     serializer_class = RelationshipSerializer
 
-class RelationshipDetail(generics.RetrieveUpdateDestroyAPIView):
+class UserRelationshipList(generics.ListCreateAPIView):
     queryset = Relationship.objects.all()
     serializer_class = RelationshipSerializer
 
-class UserImageSelectionList(generics.ListCreateAPIView):
-    queryset = UserImageSelection.objects.all()
-    serializer_class = UserImageSelectionSerializer
+    def get_queryset(self):
+        to_user_id = self.kwargs['to_user']
 
-class UserImageSelectionDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = UserImageSelection.objects.all()
-    serializer_class = UserImageSelectionSerializer
+        return self.queryset.filter(to_user=to_user_id)
 
+class RelationshipDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Relationship.objects.all()
+    serializer_class = RelationshipSerializer
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod

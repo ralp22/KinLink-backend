@@ -1,10 +1,10 @@
 from django.contrib import admin
-from django.urls import path
-from kinlink.views import MyTokenObtainPairView, UserProfileList, UserProfileDetail, PostList, PostDetail, CommentList, CommentDetail, RelationshipList, RelationshipDetail, UserImageSelectionList, UserImageSelectionDetail, UserList, UserDetail
+from django.urls import path, include
+from django.conf import settings
+from kinlink.views import MyTokenObtainPairView, UserProfileList, UserProfileDetail, PostList, PostDetail, CommentList, CommentDetail, RelationshipList, RelationshipDetail, UserList, UserDetail, UserRelationshipList
 from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
-
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -19,8 +19,7 @@ urlpatterns = [
     path('comments/', CommentList.as_view(), name="comment_list"),
     path('comments/<int:pk>', CommentDetail.as_view(), name="comment_detail"),
     path('relationships/', RelationshipList.as_view(), name="relationship_list"),
-    path('relationships/<int:pk>', RelationshipDetail.as_view(), name="relationship_detail"),
-    path('highlightreel/', UserImageSelectionList.as_view(), name="highlightreel_list"),
-    path('highlightreel/<int:pk>', UserImageSelectionDetail.as_view(), name="highlightreel_detail"),
-    
+    path('relationships/to_user=<int:to_user>/', UserRelationshipList.as_view(), name="user_relationship_list"),
+    path('relationships/<int:pk>', RelationshipDetail.as_view(), name="relationship_detail"), 
 ]
+

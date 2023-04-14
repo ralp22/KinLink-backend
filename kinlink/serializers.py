@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .models import UserProfile, Relationship, UserImageSelection, Post, Comment
+from .models import UserProfile, Relationship, Post, Comment
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -19,20 +19,14 @@ class UserSerializer(serializers.ModelSerializer):
             is_staff=validated_data.get('is_staff', False),
             is_superuser=validated_data.get('is_superuser', False),
         )
-        return User
+        return user
         
 class UserProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserProfile
-        fields = ('id', 'user', 'avatar', 'highlight_reel', 'relationships')
+        fields = ('id', 'user', 'avatar', 'highlight_reel_img_1', 'highlight_reel_img_2','highlight_reel_img_3','highlight_reel_img_4','highlight_reel_img_5','highlight_reel_img_6','highlight_reel_img_7','highlight_reel_img_8','highlight_reel_img_9','highlight_reel_img_10','relationships')
 
-class UserImageSelectionSerializer(serializers.ModelSerializer):
-    user_profile = UserProfileSerializer(read_only=True)
-    
-    class Meta:
-        model = UserImageSelection
-        fields = ('id', 'user', 'user_profile', 'image')
 
 class RelationshipSerializer(serializers.ModelSerializer):
 
