@@ -19,9 +19,12 @@ class UserSerializer(serializers.ModelSerializer):
             is_staff=validated_data.get('is_staff', False),
             is_superuser=validated_data.get('is_superuser', False),
         )
+        UserProfile.objects.create(user=user, id=user.id)
         return user
         
 class UserProfileSerializer(serializers.ModelSerializer):
+    
+    user = UserSerializer(read_only=True)
 
     class Meta:
         model = UserProfile

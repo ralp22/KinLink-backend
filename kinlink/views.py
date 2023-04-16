@@ -1,4 +1,5 @@
-from rest_framework import generics
+from rest_framework import generics, status
+from rest_framework.response import Response
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from .models import UserProfile, Post, Comment, Relationship, User
@@ -19,6 +20,16 @@ class UserProfileList(generics.ListCreateAPIView):
 class UserProfileDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer
+
+    def post(self, request, pk):
+        user = User.objects.get(pk=pk)
+        serializer = UserProfileSerializer(data=request.data)
+        
+        if serializer.is_valid():
+            serializer.save(user_id=pk)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class PostList(generics.ListCreateAPIView):
     queryset = Post.objects.all()
